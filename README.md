@@ -18,6 +18,9 @@ It was designed to make repetitive QIIME2 workflows easier to run while remainin
 
 This project assumes you already have a working QIIME2 environment installed.
 
+Metadata files should follow qiime input conventions
+- See : https://docs.qiime2.org/2024.10/tutorials/metadata/
+
 Tested conceptually with a standard QIIME2 amplicon workflow using:
 
 - QIIME2
