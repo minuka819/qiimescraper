@@ -1,5 +1,7 @@
 # QIIME Scraper
 
+## Currently undergoing batch testing 
+
 QIIME Scraper is a lightweight command-line wrapper for running a paired-end QIIME2 amplicon workflow from raw FASTQ files to taxonomy barplots.
 
 It was designed to make repetitive QIIME2 workflows easier to run while remaining flexible across marker genes such as 16S, ITS, COI, or custom amplicons.
