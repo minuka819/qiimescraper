@@ -1,0 +1,3 @@
+# No external Python packages are required.
+# This script uses the Python standard library.
+# A working QIIME2 environment is required.
