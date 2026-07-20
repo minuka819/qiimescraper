@@ -148,8 +148,8 @@ def infer_sample_id(r1_filename: str, r1_suffix: str) -> str:
 def generate_manifest(
     fastq_dir: Path,
     manifest_path: Path,
-    r1_suffix: str = "_R1_001.fastq.gz",
-    r2_suffix: str = "_R2_001.fastq.gz",
+    r1_suffix: str = "_R1.cleaned.fastq.gz",
+    r2_suffix: str = "_R2.cleaned.fastq.gz",
     sample_contains: str | None = None,
 ) -> None:
     """
@@ -186,6 +186,7 @@ def generate_manifest(
 
         for r1 in r1_files:
             sample_id = infer_sample_id(r1, r1_suffix)
+            sample_id = sample_id.split("_S")[0]
             r2 = r1.replace(r1_suffix, r2_suffix)
 
             r1_path = fastq_dir / r1
@@ -197,6 +198,7 @@ def generate_manifest(
             handle.write(f"{sample_id}\t{r1_path.resolve()}\t{r2_path.resolve()}\n")
 
     print(f"[Manifest created] {manifest_path}")
+    print(f"[Samples processed] {len(r1_files)}")
 
 
 # -----------------------------------------------------------------------------
@@ -264,6 +266,7 @@ def step_dada2(
         "--o-table", str(outdir / "table.qza"),
         "--o-representative-sequences", str(outdir / "repseqs.qza"),
         "--o-denoising-stats", str(outdir / "dada2stats.qza"),
+        "--o-base-transition-stats", str(outdir / "dada2base_transition_stats.qza"),
     ])
 
     run_command([
@@ -397,8 +400,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--cores", type=int, default=8, help="Number of CPU cores/threads.")
     parser.add_argument("--discard-untrimmed", action="store_true", help="Discard reads without detected primers.")
 
-    parser.add_argument("--r1-suffix", default="_R1_001.fastq.gz", help="Forward read filename suffix.")
-    parser.add_argument("--r2-suffix", default="_R2_001.fastq.gz", help="Reverse read filename suffix.")
+    parser.add_argument("--r1-suffix", default="_R1.cleaned.fastq.gz", help="Forward read filename suffix.")
+    parser.add_argument("--r2-suffix", default="_R2.cleaned.fastq.gz", help="Reverse read filename suffix.")
     parser.add_argument(
         "--sample-contains",
         help="Optional substring filter for sample FASTQ names. Useful for processing one marker at a time.",
