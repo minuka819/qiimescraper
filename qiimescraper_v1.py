@@ -245,6 +245,11 @@ def step_cutadapt(
         cmd.append("--p-discard-untrimmed")
 
     run_command(cmd, log_file=outdir / "cutadapt_verbose.log")
+    run_command([
+        "qiime", "demux", "summarize",
+        "--i-data", str(outdir / "demux_trimmed.qza"),
+        "--o-visualization", str(outdir / "demux_trimmed.qzv"),
+    ])
 
 
 def step_dada2(
